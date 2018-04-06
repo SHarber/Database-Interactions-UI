@@ -1,0 +1,104 @@
+
+<body>
+	<div class='header'>
+		<div class='addExercise'>
+			<h1>Add a New Exercise</h1>
+			<form method='GET' action='/insert' id='addNewExercise'>
+				<fieldset>
+					<label>Name of Exercise:</label>
+					<input type='text' name='name' id='name' maxlength='255' required><br>
+					<label>Number of Reps:</label>
+					<input type='number' name='reps' min='1' max='999' id='reps' required><br />
+					<label>Weight used:</label>
+					<input type='number' name='weight' id='weight' min='1' max='9999' required> <br />
+					<label>Date of Workout:</label>
+					<input type='date' name='date' id='date' required><br />
+					<label>Pounds or Kg:</label>
+					<input type='radio' name='lbs' id = 'lbs' value='1' required>lbs
+					<input type='radio' name='lbs' id = 'lbs' value='0' required>kg
+					<input id='submit' type='submit' name='submitForm'>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+
+	<!--Area for Logged Exercises-->
+	<div class='exerciseTable'>
+		<table>
+			<thead>
+				<tr>
+					<th colspan='7'>Logged Exercises<th>
+				</tr>
+				<tr>
+					<th>Exercise Name</th>
+					<th>Number of Reps</th>
+					<th>Weight Used</th>
+					<th>Date Completed</th>
+					<th>Lbs(1) or Kg(0)</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+
+
+			<tbody class='edit'>
+				{{#each results}}	
+					<tr>
+						<form id={{this.id}} method='GET' action='/update' style='display: none'>
+ 							<!--Make a hidden ID Value-->
+							 <!--May not need-->
+ 							<input name='id' value = {{this.id}} style='display: none'>
+ 							
+ 							<!--Display Each Exercise's Information-->
+ 			
+ 							<!--Exercise Name-->
+ 							 <td>
+								 <input type='text' name='name' id='{{this.id}}_name' maxlength='255' required style='display: none' value={{{this.name}}}>
+								 <span id='cellText'>{{this.name}} </span>
+							 </td>
+
+							 <!--Number of Reps-->
+							 <td>
+								<input type='number' name='reps' min='1' max='999' id='{{this.id}}_reps' required style='display: none' value={{this.reps}}>
+								<span id='cellText'>{{this.reps}}</span>
+							 </td>
+
+							 <!--Amount of Weight used-->
+							 <td>
+								<input type='number' name='weight' id='{{this.id}}_weight' min='1' max='9999' required style='display: none' value={{this.weight}}>
+								<span id='cellText'>{{this.weight}}</span>
+							 </td>
+
+							 <!--Date of Exercise-->
+							 <td>
+								<input type='date' name='date' id='{{this.id}}_date' required style='display: none' value={{{this.date}}}>
+								<span id='cellText'>{{this.date}}</span>
+							 </td>
+
+							 <!--Units Used-->
+							 <td>
+								<input type='radio' name='lbs' id = '{{this.id}}_lbs' value='1' required style='display: none' value={{this.lbs}}>lbs</input>
+								<input type='radio' name='lbs' id = '{{this.id}}_kg' value='0' required style='display: none' >kg</input>
+								<span id='cellTextRadio'></span>
+							 </td>
+
+							 <!--Buttons-->
+  							 <td> 
+								 	<button type='button' name='editButton' style='display: block'id='{{this.id}}_editButton' onclick='editRow({{this.id}}, {{this.lbs}})'>Edit</button>
+
+									<input id='{{this.id}}_submitButton' type='submit' name='updateForm' style='display:none'>Submit</button>
+ 							</td>
+ 						</form>
+						<td> 
+							<form method='get' action = '/delete'>
+							<button type='button' id='deleteButton' onclick='deleteRow({{this.id}})'>Delete</button>
+							</form>
+						</td>
+
+					</tr>
+				{{/each}}	
+			</tbody>
+		</table>
+	</div>
+</body>
